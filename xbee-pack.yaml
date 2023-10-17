@@ -1,0 +1,29 @@
+schema-version: 1.0
+
+
+dependency:
+  origin: aws-jdk
+  var:
+    version: 11
+
+
+const:
+  instance: /instance
+  dataDir: /instance/data
+
+var:
+  version: 3.9.1
+
+volume: "{{ .instance }}"
+
+provision:
+  - url: https://dlcdn.apache.org/zookeeper/zookeeper-{{ .version }}/apache-zookeeper-{{ .version }}-bin.tar.gz
+  - systempath: "{{ .xbee.install}}/apache-zookeeper-{{ .version }}-bin/bin"
+  - permission:
+      path: "{{ .xbee.install}}/apache-zookeeper-{{ .version }}-bin"
+      owner: "{{ .xbee.user }}"
+      recursive: true
+
+up: zkServer.sh start
+
+down: zkServer.sh stop
